@@ -1,0 +1,7 @@
+{
+  "name": "صندوق صراحة المدرسي - مدرسة WE للتكنولوجيا التطبيقية فرع طوخ",
+  "description": "منصة التواصل والصراحة الطلابية الآمنة والسرية لمدرسة وي للتكنولوجيا التطبيقية بطوخ مع لوحة تحكم متكاملة للإدارة.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

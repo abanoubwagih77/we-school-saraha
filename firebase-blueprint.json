@@ -1,0 +1,121 @@
+{
+  "entities": {
+    "Message": {
+      "title": "Message",
+      "description": "Student message or complaint submitted anonymously",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier"
+        },
+        "referenceCode": {
+          "type": "string",
+          "description": "Tracking code (e.g. WE-A1-1234)"
+        },
+        "content": {
+          "type": "string",
+          "description": "Message text written by student"
+        },
+        "classroom": {
+          "type": "string",
+          "description": "Class identifier (A1..A6, B1..B6, C1..C6, or empty)"
+        },
+        "category": {
+          "type": "string",
+          "description": "Category of the submission"
+        },
+        "urgency": {
+          "type": "string",
+          "description": "Urgency level"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp in ISO format"
+        },
+        "isRead": {
+          "type": "boolean",
+          "description": "Whether school admin has opened the message"
+        },
+        "readAt": {
+          "type": "string",
+          "description": "Timestamp when read"
+        },
+        "status": {
+          "type": "string",
+          "description": "Processing status"
+        },
+        "adminNotes": {
+          "type": "string",
+          "description": "Internal administrative notes"
+        },
+        "adminReply": {
+          "type": "string",
+          "description": "Public feedback for student"
+        },
+        "adminRepliedAt": {
+          "type": "string",
+          "description": "Timestamp of feedback reply"
+        },
+        "starred": {
+          "type": "boolean",
+          "description": "Whether starred by admin"
+        }
+      },
+      "required": ["referenceCode", "content", "createdAt", "isRead", "status"]
+    },
+    "Settings": {
+      "title": "Settings",
+      "description": "System settings and admin credentials",
+      "type": "object",
+      "properties": {
+        "schoolName": {
+          "type": "string",
+          "description": "School title"
+        },
+        "branchName": {
+          "type": "string",
+          "description": "Branch name"
+        },
+        "schoolSubtitle": {
+          "type": "string",
+          "description": "School subtitle"
+        },
+        "announcement": {
+          "type": "string",
+          "description": "Public announcement for students"
+        },
+        "allowSubmissions": {
+          "type": "boolean",
+          "description": "Whether submissions are open"
+        },
+        "adminUsername": {
+          "type": "string",
+          "description": "Admin username"
+        },
+        "adminPasswordHash": {
+          "type": "string",
+          "description": "SHA-256 hashed password"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Update timestamp"
+        }
+      }
+    }
+  },
+  "firestore": {
+    "/messages/{messageId}": {
+      "schema": {
+        "$ref": "#/entities/Message"
+      },
+      "description": "Store all student complaints and messages"
+    },
+    "/settings/config": {
+      "schema": {
+        "$ref": "#/entities/Settings"
+      },
+      "description": "Store application configuration and admin credentials"
+    }
+  }
+}

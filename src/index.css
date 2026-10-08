@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+/* Disable mobile tap highlight & prevent text caret popping up on non-editable elements */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+*:focus {
+  outline: none;
+}
+
+/* Caret only on genuine text inputs */
+body {
+  caret-color: transparent;
+}
+
+input, textarea {
+  caret-color: #7c3aed;
+}
+
+button, a, [role="button"], label {
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
