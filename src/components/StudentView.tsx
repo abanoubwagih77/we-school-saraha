@@ -209,26 +209,28 @@ export const StudentView: React.FC<StudentViewProps> = ({ settings }) => {
           <button
             type="button"
             onClick={() => setActiveTab('submit')}
-            className={`flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 ${
+            className={`flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${
               activeTab === 'submit'
                 ? 'bg-purple-900 text-white shadow-sm'
                 : 'text-slate-600 hover:text-purple-900 hover:bg-slate-50'
             }`}
           >
-            <Send className="w-4 h-4" />
-            <span>إرسال رسالة أو شكوى سرية جديدة ✍️</span>
+            <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+            <span className="hidden sm:inline">إرسال رسالة أو شكوى سرية جديدة ✍️</span>
+            <span className="sm:hidden">إرسال رسالة جديدة ✍️</span>
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('track')}
-            className={`flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 ${
+            className={`flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${
               activeTab === 'track'
                 ? 'bg-purple-900 text-white shadow-sm'
                 : 'text-slate-600 hover:text-purple-900 hover:bg-slate-50'
             }`}
           >
-            <Search className="w-4 h-4" />
-            <span>متابعة حالة الشكوى ورد الإدارة 🔍</span>
+            <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+            <span className="hidden sm:inline">متابعة حالة الشكوى ورد الإدارة 🔍</span>
+            <span className="sm:hidden">متابعة حالة الشكوى 🔍</span>
           </button>
         </div>
 
