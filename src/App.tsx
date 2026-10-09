@@ -8,6 +8,7 @@ import { SystemSettings } from './types';
 import { fetchSettings, verifyAdmin, adminLogout, fetchAdminStats } from './services/api';
 import { Header } from './components/Header';
 import { StudentView } from './components/StudentView';
+import { StaffView } from './components/StaffView';
 import { AdminDashboard } from './components/AdminDashboard';
 import { AdminLoginModal } from './components/AdminLoginModal';
 import { Footer } from './components/Footer';
@@ -15,7 +16,7 @@ import { Footer } from './components/Footer';
 export default function App() {
   const [settings, setSettings] = useState<SystemSettings | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [viewMode, setViewMode] = useState<'student' | 'admin'>('student');
+  const [viewMode, setViewMode] = useState<'student' | 'admin' | 'staff'>('student');
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
 
@@ -94,6 +95,11 @@ export default function App() {
             settings={settings}
             onRefreshSettings={initApp}
             onOpenStudentView={() => setViewMode('student')}
+          />
+        ) : viewMode === 'staff' ? (
+          <StaffView
+            settings={settings}
+            onBackToStudent={() => setViewMode('student')}
           />
         ) : (
           <StudentView settings={settings} />

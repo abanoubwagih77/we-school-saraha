@@ -2,7 +2,9 @@ export interface StudentMessage {
   id: string;
   referenceCode: string;
   content: string;
-  classroom: string; // A1..A6, B1..B6, C1..C6, or ''
+  senderType?: 'student' | 'staff';
+  classroom?: string; // A1..A6, B1..B6, C1..C6, or ''
+  staffRole?: string; // e.g. مهندس تخصص, معلم مواد, إداري
   category: string;
   urgency: 'عادي' | 'عاجل';
   createdAt: string;
@@ -18,12 +20,14 @@ export interface StudentMessage {
 export interface TrackedMessage {
   found: boolean;
   referenceCode: string;
+  senderType?: 'student' | 'staff';
   createdAt: string;
   isRead: boolean;
   readAt?: string | null;
   status: 'new' | 'in_progress' | 'resolved' | 'archived';
   statusLabel: string;
-  classroom: string;
+  classroom?: string;
+  staffRole?: string;
   category: string;
   urgency: 'عادي' | 'عاجل';
   content: string;
@@ -36,6 +40,7 @@ export interface SystemSettings {
   branchName: string;
   schoolSubtitle: string;
   announcement: string;
+  staffAnnouncement?: string;
   allowSubmissions: boolean;
   classes: string[];
 }
@@ -47,6 +52,8 @@ export interface AdminStats {
   urgent: number;
   inProgress: number;
   resolved: number;
+  studentCount?: number;
+  staffCount?: number;
   byClass: Record<string, number>;
   byCategory: Record<string, number>;
 }

@@ -50,6 +50,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   // Filters
   const [activeTab, setActiveTab] = useState<'all' | 'unread' | 'read' | 'in_progress' | 'resolved' | 'urgent' | 'starred'>('all');
+  const [senderTypeFilter, setSenderTypeFilter] = useState<'all' | 'student' | 'staff'>('all');
   const [classroomFilter, setClassroomFilter] = useState<string>('all');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -79,6 +80,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
       const [msgData, statsData] = await Promise.all([
         fetchAdminMessages({
+          senderType: senderTypeFilter !== 'all' ? senderTypeFilter : undefined,
           classroom: classroomFilter !== 'all' ? classroomFilter : undefined,
           category: categoryFilter !== 'all' ? categoryFilter : undefined,
           status: statusFilter,
@@ -108,7 +110,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     // Auto refresh every 45 seconds to detect new incoming responses
     const interval = setInterval(loadData, 45000);
     return () => clearInterval(interval);
-  }, [activeTab, classroomFilter, categoryFilter, searchQuery]);
+  }, [activeTab, senderTypeFilter, classroomFilter, categoryFilter, searchQuery]);
 
   // Open message details & mark as read if it was unread
   const handleOpenMessage = async (msg: StudentMessage) => {
@@ -359,6 +361,43 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         {/* Filters & Search Control Bar */}
         <div className="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-slate-200 space-y-4">
           
+          {/* Sender Type Toggle (Students vs Staff vs All) */}
+          <div className="flex flex-wrap items-center gap-1.5 p-1 bg-slate-100/90 rounded-2xl w-full sm:w-max">
+            <button
+              type="button"
+              onClick={() => setSenderTypeFilter('all')}
+              className={`flex-1 sm:flex-none px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                senderTypeFilter === 'all'
+                  ? 'bg-white text-slate-900 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              جميع الوارد ({stats?.total ?? 0})
+            </button>
+            <button
+              type="button"
+              onClick={() => setSenderTypeFilter('student')}
+              className={`flex-1 sm:flex-none px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                senderTypeFilter === 'student'
+                  ? 'bg-purple-900 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-purple-900'
+              }`}
+            >
+              🎓 رسائل الطلاب ({stats?.studentCount ?? 0})
+            </button>
+            <button
+              type="button"
+              onClick={() => setSenderTypeFilter('staff')}
+              className={`flex-1 sm:flex-none px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                senderTypeFilter === 'staff'
+                  ? 'bg-indigo-900 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-indigo-900'
+              }`}
+            >
+              👔 رسائل المعلمين والمهندسين ({stats?.staffCount ?? 0})
+            </button>
+          </div>
+
           {/* Status Tabs - Fully visible without horizontal scroll on mobile */}
           <div>
             <div className="text-[11px] font-bold text-slate-500 mb-2 sm:hidden">

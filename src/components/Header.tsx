@@ -1,12 +1,12 @@
 import React from 'react';
-import { ShieldCheck, Lock, Bell, LogOut, LayoutDashboard, Send } from 'lucide-react';
+import { ShieldCheck, Lock, Bell, LogOut, LayoutDashboard, Send, Briefcase, GraduationCap } from 'lucide-react';
 import { SystemSettings } from '../types';
 
 interface HeaderProps {
   settings: SystemSettings | null;
   isAdmin: boolean;
-  viewMode: 'student' | 'admin';
-  setViewMode: (mode: 'student' | 'admin') => void;
+  viewMode: 'student' | 'admin' | 'staff';
+  setViewMode: (mode: 'student' | 'admin' | 'staff') => void;
   onOpenLogin: () => void;
   onLogout: () => void;
   unreadCount: number;
@@ -51,7 +51,11 @@ export const Header: React.FC<HeaderProps> = ({
               
               <p className="text-[10px] sm:text-xs text-purple-200/90 flex items-center gap-1 mt-0.5">
                 <ShieldCheck className="w-3 h-3 text-emerald-400 flex-shrink-0" />
-                <span>صندوق الصراحة والتواصل المدرسي السري والآمن 100%</span>
+                <span>
+                  {viewMode === 'staff'
+                    ? 'بوابة المعلمين والمهندسين السرية 👔'
+                    : 'صندوق الصراحة والتواصل المدرسي السري والآمن 100%'}
+                </span>
               </p>
 
               {/* Floating Tooltip Card on Hover */}
@@ -64,7 +68,7 @@ export const Header: React.FC<HeaderProps> = ({
                 </div>
                 <div className="text-[11px] text-emerald-400 font-semibold mt-1.5 flex items-center gap-1">
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>منظومة صراحة الطلابية الرسمية والسرية بالكامل</span>
+                  <span>منظومة صراحة الرسمية والمشفرة بالكامل</span>
                 </div>
               </div>
             </div>
@@ -81,13 +85,13 @@ export const Header: React.FC<HeaderProps> = ({
                       ? 'bg-purple-800/60 hover:bg-purple-700/60 text-purple-100 border border-purple-600/40'
                       : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow'
                   }`}
-                  title={viewMode === 'admin' ? 'معاينة صفحة الطلاب' : 'العودة للوحة التحكم'}
+                  title={viewMode === 'admin' ? 'معاينة الموقع' : 'العودة للوحة التحكم'}
                 >
                   {viewMode === 'admin' ? (
                     <>
                       <Send className="w-3.5 h-3.5 text-purple-300" />
-                      <span className="hidden md:inline">صفحة الطلاب</span>
-                      <span className="md:hidden">الطلاب</span>
+                      <span className="hidden md:inline">معاينة الموقع</span>
+                      <span className="md:hidden">الموقع</span>
                     </>
                   ) : (
                     <>
@@ -98,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({
                   )}
                 </button>
 
-                {viewMode === 'student' && unreadCount > 0 && (
+                {viewMode !== 'admin' && unreadCount > 0 && (
                   <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[11px] font-bold bg-rose-500 text-white animate-pulse">
                     <Bell className="w-3 h-3" />
                     <span>{unreadCount}</span>
@@ -115,13 +119,39 @@ export const Header: React.FC<HeaderProps> = ({
                 </button>
               </div>
             ) : (
-              <button
-                onClick={onOpenLogin}
-                className="inline-flex items-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-purple-800/60 hover:bg-purple-700/70 text-purple-100 border border-purple-500/50 shadow-sm transition-all duration-200"
-              >
-                <Lock className="w-3.5 h-3.5 text-purple-300" />
-                <span>دخول الإدارة</span>
-              </button>
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                {/* Proposal 2: Dedicated Teachers & Engineers Portal Button */}
+                {viewMode === 'staff' ? (
+                  <button
+                    onClick={() => setViewMode('student')}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold bg-purple-800/80 hover:bg-purple-700 text-purple-100 border border-purple-500/50 shadow-sm transition-all"
+                    title="العودة لصندوق الطلاب"
+                  >
+                    <GraduationCap className="w-3.5 h-3.5 text-purple-300" />
+                    <span>صندوق الطلاب 🎓</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setViewMode('staff')}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-900/80 hover:bg-indigo-800 text-indigo-100 border border-indigo-400/50 shadow-sm transition-all"
+                    title="صندوق المعلمين والمهندسين"
+                  >
+                    <Briefcase className="w-3.5 h-3.5 text-indigo-300" />
+                    <span className="hidden sm:inline">صندوق المعلمين والمهندسين 👔</span>
+                    <span className="sm:hidden">المهندسين والمعلمين 👔</span>
+                  </button>
+                )}
+
+                {/* Admin Login Button */}
+                <button
+                  onClick={onOpenLogin}
+                  className="inline-flex items-center gap-1 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold bg-purple-900/60 hover:bg-purple-800 text-purple-200 border border-purple-600/40 shadow-sm transition-all"
+                >
+                  <Lock className="w-3.5 h-3.5 text-purple-300" />
+                  <span className="hidden sm:inline">دخول الإدارة</span>
+                  <span className="sm:hidden">الإدارة</span>
+                </button>
+              </div>
             )}
           </div>
 
